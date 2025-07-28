@@ -20,20 +20,16 @@ jobs:
         run: |
           FILES=$(gh pr diff ${{ github.event.pull_request.number }} --name-only)
           echo "$FILES"
-          echo "\320\266\320\265\321\201\321\202\321\214.md"
-          echo "$FILES" = "\320\266\320\265\321\201\321\202\321\214.md"
 
           ONLY_ZHEST=false
 
-          if [ $FILES = "\320\266\320\265\321\201\321\202\321\214.md" ]; then
+          COUNT=$(echo "$FILES" | wc -l)
+
+          if [ "$COUNT" -eq 1 ] && [ "$FILES" = "жесть.md" ]; then
             ONLY_ZHEST=true
           fi
 
-          echo "$ONLY_ZHEST"
-          echo $ONLY_ZHEST
-          
-
-          echo "only_zhest=$ONLY_ZHEST" >> $GITHUB_OUTPUT
+          echo "ONLY_ZHEST=$ONLY_ZHEST"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
