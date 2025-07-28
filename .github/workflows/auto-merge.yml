@@ -19,6 +19,7 @@ jobs:
         id: check
         run: |
           FILES=$(gh pr diff ${{ github.event.pull_request.number }} --name-only)
+          echo "$FILES"
 
           ONLY_ZHEST=false
 
