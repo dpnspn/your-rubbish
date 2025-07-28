@@ -1,0 +1,53 @@
+name: Auto Merge
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check-and-act:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Fetch PR diff and check files
+        id: check
+        run: |
+          FILES=$(gh pr diff ${{ github.event.pull_request.number }} --name-only)
+
+          ONLY_ZHEST=false
+
+          if [ "$FILES" = "жесть.md" ]; then
+            ONLY_ZHEST=true
+          fi
+
+          echo "only_zhest=$ONLY_ZHEST" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Approve PR
+        if: steps.check.outputs.only_zhest == 'true'
+        uses: hmarr/auto-approve-action@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Merge PR
+        if: steps.check.outputs.only_zhest == 'true'
+        run: |
+          gh pr merge ${{ github.event.pull_request.number }} --merge --admin --delete-branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Comment and close PR
+        if: steps.check.outputs.only_zhest == 'false'
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} \
+            --body "Сори бро чет не то ты мб перепутал ноооо нет не то ты сделал прости браточек я бы за но такие правила ты сделал не то брат прости"
+          gh pr close ${{ github.event.pull_request.number }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
