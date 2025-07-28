@@ -20,6 +20,8 @@ jobs:
         run: |
           FILES=$(gh pr diff ${{ github.event.pull_request.number }} --name-only)
           echo "$FILES"
+          echo "\320\266\320\265\321\201\321\202\321\214.md"
+          echo "$FILES" = "\320\266\320\265\321\201\321\202\321\214.md"
 
           ONLY_ZHEST=false
 
