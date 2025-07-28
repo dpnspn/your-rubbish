@@ -34,12 +34,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Approve PR
-        if: steps.check.outputs.only_zhest == 'true'
-        uses: hmarr/auto-approve-action@v3
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Merge PR
         if: steps.check.outputs.only_zhest == 'true'
         run: |
