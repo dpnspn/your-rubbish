@@ -25,7 +25,7 @@ jobs:
 
           ONLY_ZHEST=false
 
-          if [ "$FILES" = "\320\266\320\265\321\201\321\202\321\214.md" ]; then
+          if [ $FILES = "\320\266\320\265\321\201\321\202\321\214.md" ]; then
             ONLY_ZHEST=true
           fi
 
