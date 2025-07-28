@@ -29,6 +29,10 @@ jobs:
             ONLY_ZHEST=true
           fi
 
+          echo "$ONLY_ZHEST"
+          echo $ONLY_ZHEST
+          
+
           echo "only_zhest=$ONLY_ZHEST" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
