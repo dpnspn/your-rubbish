@@ -19,14 +19,9 @@ jobs:
         id: check
         run: |
           FILES=$(gh pr diff ${{ github.event.pull_request.number }} --name-only)
-          echo "Raw files:"
-          echo "$FILES"
 
           FILES_ESCAPED=$(echo "$FILES" | tr -d '"')
           FILES_DECODED=$(printf "$FILES_ESCAPED")
-
-          echo "Decoded files:"
-          echo "$FILES_DECODED"
 
           ONLY_ZHEST=false
           COUNT=$(echo "$FILES_DECODED" | wc -l)
@@ -34,10 +29,7 @@ jobs:
           if [ "$COUNT" -eq 1 ] && [ "$FILES_DECODED" = "жесть.md" ]; then
             ONLY_ZHEST=true
           fi
-
-          echo "ONLY_ZHEST=$ONLY_ZHEST"
           
-      
           echo "only_zhest=$ONLY_ZHEST" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
