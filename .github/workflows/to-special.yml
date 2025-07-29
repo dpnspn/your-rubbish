@@ -22,13 +22,14 @@ jobs:
         run: |
           git clone https://x-access-token:${{ secrets.SPECIAL_REPO_TOKEN }}@github.com/dpnspn/.github.git special-repo
 
-      - name: Copy file
+      - name: Combine files to README.md
         run: |
-          cp жесть.md special-repo/profile/жесть.md
+          cat special-repo/profile/info.md > special-repo/profile/README.md
+          cat жесть.md >> special-repo/profile/README.md
 
       - name: Commit and push changes
         working-directory: special-repo
         run: |
-          git add profile/жесть.md
+          git add profile/README.md
           git commit -m "жесть какая-то" || echo "No changes to commit"
           git push
