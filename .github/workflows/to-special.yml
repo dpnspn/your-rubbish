@@ -25,6 +25,7 @@ jobs:
       - name: Combine files to README.md
         run: |
           cat special-repo/profile/info.md > special-repo/profile/README.md
+          echo "" >> special-repo/profile/README.md
           cat жесть.md >> special-repo/profile/README.md
 
       - name: Commit and push changes
