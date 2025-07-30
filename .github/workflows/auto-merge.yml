@@ -21,6 +21,8 @@ jobs:
       - name: Fetch PR diff and check files
         id: check
         run: |
+          echo "GH_TOKEN is set? -> ${GH_TOKEN:+yes}"  # should print yes
+          echo "GH_TOKEN length: ${#GH_TOKEN}"
           FILES=$(gh pr diff ${{ github.event.pull_request.number }} --name-only)
 
           FILES_ESCAPED=$(echo "$FILES" | tr -d '"')
