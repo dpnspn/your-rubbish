@@ -11,6 +11,9 @@ jobs:
       pull-requests: write
       contents: write
 
+    env:
+      GH_TOKEN: ${{ secrets.THIS_REPO_TOKEN }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -31,16 +34,12 @@ jobs:
           fi
           
           echo "only_zhest=$ONLY_ZHEST" >> $GITHUB_OUTPUT
-        env:
-          GH_TOKEN: ${{ secrets.THIS_REPO_TOKEN }}
 
 
       - name: Merge PR
         if: steps.check.outputs.only_zhest == 'true'
         run: |
           gh pr merge ${{ github.event.pull_request.number }} --merge --admin --delete-branch
-        env:
-          GH_TOKEN: ${{ secrets.THIS_REPO_TOKEN }}
 
       - name: Comment and close PR
         if: steps.check.outputs.only_zhest == 'false'
@@ -48,5 +47,3 @@ jobs:
           gh pr comment ${{ github.event.pull_request.number }} \
             --body "Сори бро чет не то ты мб перепутал ноооо нет не то ты сделал прости браточек я бы за но такие правила ты сделал не то брат прости"
           gh pr close ${{ github.event.pull_request.number }}
-        env:
-          GH_TOKEN: ${{ secrets.THIS_REPO_TOKEN }}
